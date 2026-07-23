@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 LoL 멸망전 시즌1 대진표</title>
+<style>
+  :root{
+    --bg: #0b0d17;
+    --panel: #12162a;
+    --panel-2: #171c34;
+    --line: #2a3158;
+    --accent: #7c5cff;
+    --accent-2: #2fd0e0;
+    --gold: #ffcb47;
+    --text: #eef0fb;
+    --text-dim: #8990b8;
+    --win: #2fd0e0;
+    --upper: #7c5cff;
+    --lower: #ff6b6b;
+  }
+  *{ box-sizing:border-box; }
+  html,body{
+    margin:0; padding:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,sans-serif;
+  }
+  .wrap{
+    max-width:1400px;
+    margin:0 auto;
+    padding:32px 20px 60px;
+  }
+  .header{
+    text-align:center;
+    margin-bottom:28px;
+  }
+  .header .badge{
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--accent-2);
+    background:rgba(47,208,224,0.1);
+    border:1px solid rgba(47,208,224,0.35);
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .header h1{
+    margin:4px 0 6px;
+    font-size:26px;
+    font-weight:800;
+    letter-spacing:-0.3px;
+  }
+  .header p{
+    margin:0;
+    color:var(--text-dim);
+    font-size:13px;
+  }
+
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:36px 0 16px;
+  }
+  .section-title .dot{
+    width:9px; height:9px; border-radius:50%;
+  }
+  .section-title.upper .dot{ background:var(--upper); box-shadow:0 0 10px var(--upper); }
+  .section-title.lower .dot{ background:var(--lower); box-shadow:0 0 10px var(--lower); }
+  .section-title.final .dot{ background:var(--gold); box-shadow:0 0 10px var(--gold); }
+  .section-title span.label{
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.5px;
+    color:var(--text);
+  }
+  .section-title .rule{
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, var(--line), transparent);
+  }
+
+  .bracket{
+    display:flex;
+    align-items:stretch;
+    overflow-x:auto;
+    padding-bottom:10px;
+  }
+  .round{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    min-width:220px;
+    padding:0 22px;
+    position:relative;
+  }
+  .round-title{
+    text-align:center;
+    font-size:11px;
+    color:var(--text-dim);
+    letter-spacing:1px;
+    margin-bottom:14px;
+  }
+  .matches{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    flex:1;
+    gap:22px;
+  }
+  .match-slot{
+    position:relative;
+    display:flex;
+    align-items:center;
+  }
+  .match{
+    width:100%;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    font-size:13px;
+  }
+  .team{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  .team:last-child{ border-bottom:none; }
+  .seed{
+    font-size:10px;
+    color:var(--text-dim);
+    min-width:16px;
+    text-align:center;
+  }
+  .team-name{
+    flex:1;
+    outline:none;
+    padding:2px 4px;
+    border-radius:4px;
+    color:var(--text);
+  }
+  .team-name:hover{ background:rgba(255,255,255,0.04); }
+  .team-name:focus{ background:rgba(124,92,255,0.12); }
+  .team-name.placeholder{ color:var(--text-dim); font-style:italic; }
+  .score{
+    width:22px;
+    text-align:center;
+    font-weight:700;
+    color:var(--text-dim);
+    outline:none;
+    border-radius:4px;
+  }
+  .score:focus{ background:rgba(124,92,255,0.12); color:var(--text); }
+  .match-label{
+    font-size:10px;
+    color:var(--text-dim);
+    text-align:center;
+    margin-top:6px;
+  }
+
+  /* connector lines (single column bracket feel) */
+  .round:not(.round-first) .match-slot::before{
+    content:"";
+    position:absolute;
+    left:-22px;
+    width:22px;
+    height:1px;
+    background:var(--line);
+    top:50%;
+  }
+  .round.pair .matches > .match-slot:nth-child(odd)::after,
+  .round.pair .matches > .match-slot:nth-child(even)::after{
+    content:"";
+    position:absolute;
+    left:-22px;
+    width:1px;
+    background:var(--line);
+  }
+
+  .grandfinal-wrap{
+    display:flex;
+    justify-content:center;
+    margin-top:10px;
+  }
+  .grandfinal{
+    width:260px;
+  }
+  .grandfinal .match{
+    border-color:var(--gold);
+    box-shadow:0 0 18px rgba(255,203,71,0.12);
+  }
+  .grandfinal .match-label{ color:var(--gold); font-weight:700; }
+
+  .legend{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:36px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .legend b{ color:var(--text); }
+
+  @media (max-width:720px){
+    .header h1{ font-size:20px; }
+    .round{ min-width:190px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="badge">SOOP 2026</div>
+    <h1>LoL 멸망전 시즌1 — 본선 브래킷</h1>
+    <p>유저 투표 상위 8팀 진출 · 더블 엘리미네이션 · 팀명 칸을 클릭하면 직접 입력할 수 있습니다</p>
+  </div>
+
+  <!-- UPPER BRACKET -->
+  <div class="section-title upper">
+    <div class="dot"></div>
+    <span class="label">UPPER BRACKET</span>
+    <div class="rule"></div>
+  </div>
+  <div class="bracket">
+    <div class="round round-first">
+      <div class="round-title">QUARTERFINAL</div>
+      <div class="matches">
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">1</span><span class="team-name placeholder" contenteditable="true">투표 1위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">8</span><span class="team-name placeholder" contenteditable="true">투표 8위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">4</span><span class="team-name placeholder" contenteditable="true">투표 4위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">5</span><span class="team-name placeholder" contenteditable="true">투표 5위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">3</span><span class="team-name placeholder" contenteditable="true">투표 3위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">6</span><span class="team-name placeholder" contenteditable="true">투표 6위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">2</span><span class="team-name placeholder" contenteditable="true">투표 2위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">7</span><span class="team-name placeholder" contenteditable="true">투표 7위 팀</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="round pair">
+      <div class="round-title">UB SEMIFINAL</div>
+      <div class="matches">
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="round">
+      <div class="round-title">UB FINAL</div>
+      <div class="matches">
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+          <div class="match-label">→ 승자 GRAND FINAL 진출</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOWER BRACKET -->
+  <div class="section-title lower">
+    <div class="dot"></div>
+    <span class="label">LOWER BRACKET</span>
+    <div class="rule"></div>
+  </div>
+  <div class="bracket">
+    <div class="round round-first">
+      <div class="round-title">LB ROUND 1</div>
+      <div class="matches">
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">L</span><span class="team-name placeholder" contenteditable="true">QF1 패자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">L</span><span class="team-name placeholder" contenteditable="true">QF2 패자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">L</span><span class="team-name placeholder" contenteditable="true">QF3 패자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">L</span><span class="team-name placeholder" contenteditable="true">QF4 패자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="round pair">
+      <div class="round-title">LB ROUND 2</div>
+      <div class="matches">
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">L</span><span class="team-name placeholder" contenteditable="true">UBSF2 패자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">L</span><span class="team-name placeholder" contenteditable="true">UBSF1 패자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="round">
+      <div class="round-title">LB SEMIFINAL</div>
+      <div class="matches">
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="round">
+      <div class="round-title">LB FINAL</div>
+      <div class="matches">
+        <div class="match-slot">
+          <div class="match">
+            <div class="team"><span class="seed">-</span><span class="team-name placeholder" contenteditable="true">TBD</span><span class="score" contenteditable="true">&nbsp;</span></div>
+            <div class="team"><span class="seed">L</span><span class="team-name placeholder" contenteditable="true">UB FINAL 패자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+          </div>
+          <div class="match-label">→ 승자 GRAND FINAL 진출</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAND FINAL -->
+  <div class="section-title final">
+    <div class="dot"></div>
+    <span class="label">GRAND FINAL</span>
+    <div class="rule"></div>
+  </div>
+  <div class="grandfinal-wrap">
+    <div class="grandfinal">
+      <div class="match">
+        <div class="team"><span class="seed">UB</span><span class="team-name placeholder" contenteditable="true">UB FINAL 승자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+        <div class="team"><span class="seed">LB</span><span class="team-name placeholder" contenteditable="true">LB FINAL 승자</span><span class="score" contenteditable="true">&nbsp;</span></div>
+      </div>
+      <div class="match-label">🏆 시즌1 우승팀 결정전</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><b>세트 선택권</b> — 각 매치 1세트는 상위 시드(또는 UPPER FINAL 승자)가 진영 선택, 이후 세트는 직전 세트 패배팀이 선택</span>
+    <span><b>사용법</b> — 팀명·스코어 칸을 클릭해 직접 수정 가능 (자동 저장은 되지 않으니 확정 시 캡처 또는 재배포 권장)</span>
+  </div>
+
+</div>
+</body>
+</html>
