@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>object 태그 샘플</title>
+</head>
+<body>
+<h1>&lt;object&gt; 태그 샘플</h1>
+<p>이미지, PDF, 다른 HTML 문서 등 외부 리소스를 삽입할 때 사용하는 태그입니다. embed와 달리 대체 콘텐츠(fallback)를 지정할 수 있습니다.</p>
+
+<h2>이미지 삽입</h2>
+<object data="https://picsum.photos/id/1015/400/300" type="image/jpeg" width="400" height="300">
+  이미지를 표시할 수 없습니다.
+</object>
+
+<h2>PDF 삽입</h2>
+<object data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" type="application/pdf" width="400" height="300">
+  PDF를 표시할 수 없습니다.
+</object>
+
+<h2>다른 HTML 문서 삽입</h2>
+<object data="img.html" type="text/html" width="400" height="200">
+  문서를 표시할 수 없습니다.
+</object>
+</body>
+</html>

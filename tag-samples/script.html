@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>script 태그 샘플</title>
+</head>
+<body>
+<h1>&lt;script&gt; 태그 샘플</h1>
+<p>문서 안에 JavaScript 코드를 넣거나, 외부 JS 파일을 불러올 때 사용하는 태그입니다.</p>
+
+<h2>인라인 스크립트</h2>
+<p id="output">스크립트 실행 전...</p>
+<script>
+  document.getElementById("output").textContent = "스크립트가 실행되었습니다! 현재 시각: " + new Date().toLocaleString("ko-KR");
+</script>
+
+<h2>버튼 클릭 이벤트 예시</h2>
+<button id="myButton">클릭해보세요</button>
+<p id="clickResult"></p>
+<script>
+  document.getElementById("myButton").addEventListener("click", function () {
+    document.getElementById("clickResult").textContent = "버튼이 클릭되었습니다!";
+  });
+</script>
+
+<h2>외부 스크립트 불러오기 예시 (코드 표기용)</h2>
+<pre>&lt;script src="main.js"&gt;&lt;/script&gt;</pre>
+</body>
+</html>
